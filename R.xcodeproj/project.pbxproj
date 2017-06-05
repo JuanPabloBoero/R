@@ -85,9 +85,9 @@
 		66AE8AE61EE4F023009205E3 /* R */ = {
 			isa = PBXGroup;
 			children = (
+				66AE8AFF1EE4F43C009205E3 /* Model */,
 				66AE8B071EE4F4C4009205E3 /* View */,
 				66AE8B021EE4F48A009205E3 /* Controller */,
-				66AE8AFF1EE4F43C009205E3 /* Model */,
 				66AE8AFE1EE4F433009205E3 /* Utils */,
 				66AE8AE71EE4F023009205E3 /* AppDelegate.swift */,
 				66AE8AEB1EE4F023009205E3 /* Main.storyboard */,

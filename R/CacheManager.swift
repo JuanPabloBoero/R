@@ -46,7 +46,7 @@ class CacheManager {
         do {
             return try appDelegate.persistentContainer.viewContext.fetch(ThingMO.fetchRequest())
         } catch {
-            fatalError("Failed to fetch employees: \(error)")
+            fatalError("Failed to fetch: \(error)")
         }
         
         return nil

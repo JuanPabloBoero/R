@@ -12,18 +12,18 @@ import ObjectMapper
 import SwiftyJSON
 
 
-class ModelManager {
+class NetworkManager {
     
     // One line singleton.
-    static let shared = ModelManager()
+    static let shared = NetworkManager()
     fileprivate init() {}//This prevents others from using the default '()' initializer for this class.
     
     
     /// Will provide a collection of reddits.
-    func getTopReddits(onCompletion:@escaping (_ children: Children?, _ reddits: [Thing]?) -> Void) {
+    func getTopReddits(onCompletion:@escaping (_ reddits: [MThing]?) -> Void) {
         
         // Try to get Cache data first.
-        onCompletion(nil, CacheManager.shared.getReddits())
+        onCompletion(CacheManager.shared.getReddits())
         
         // Standard number of reddits to retrieve
         let countDefault = 25
@@ -35,17 +35,17 @@ class ModelManager {
             switch response.result {
             case .success:
                 let responseValue = response.result.value
-                if let responseAny = responseValue {
-                    let json = JSON(responseAny)
-                    
-                    if let listing = Mapper<Children>().map(JSONString: json.description) {
+                if let responseAny = responseValue as? [String: Any] {
+                    let json = JSON(responseAny["data"] as Any)
+                    let objectData = json["children"].arrayObject
+                    if let reddits = Mapper<MThing>().mapArray(JSONObject: objectData) {
                         // Update Cache.
-                        CacheManager.shared.setReddits(reddits: listing.reddits)
-                        onCompletion(listing,listing.reddits)
+                        CacheManager.shared.setReddits(reddits: reddits)
+                        onCompletion(reddits)
                     }
                 }
             case .failure(let error):
-                onCompletion(nil,nil)
+                onCompletion(nil)
                 print("ERROR AT \(#function), line:\(#line) \(error)")
             }
         }
